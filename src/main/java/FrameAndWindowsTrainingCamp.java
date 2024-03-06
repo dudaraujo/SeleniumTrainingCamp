@@ -1,4 +1,6 @@
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -7,13 +9,21 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class FrameAndWindowsTrainingCamp {
 
+    private WebDriver driver;
+
+    @Before
+    public void initialize() {
+        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
+        driver = new FirefoxDriver();
+        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+    }
+    @After
+    public void quit() {
+        driver.quit();
+    }
+
     @Test
     public void shouldClickOnFrame() {
-
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
-
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 
         driver.switchTo().frame("frame1");
 
@@ -31,16 +41,10 @@ public class FrameAndWindowsTrainingCamp {
 
         driver.findElement(By.id("elementosForm:nome")).sendKeys(msg);
 
-        driver.quit();
     }
 
     @Test
     public void shouldClickOnNamedExternalWindow(){
-
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
-
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 
         driver.findElement(By.id("buttonPopUpEasy")).click();
 
@@ -54,17 +58,10 @@ public class FrameAndWindowsTrainingCamp {
 
         driver.findElement(By.tagName("textarea")).sendKeys("Deu certo!");
 
-        driver.quit();
-
     }
 
     @Test
     public void shouldClickOnAdvancedExternalWindow() {
-
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
-
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 
         driver.findElement(By.id("buttonPopUpHard")).click();
 
@@ -79,10 +76,6 @@ public class FrameAndWindowsTrainingCamp {
 
         driver.findElement(By.tagName("textarea")).sendKeys("Deu certo a pop up dificil");
 
-        driver.quit();
-
     }
-
-
 
 }

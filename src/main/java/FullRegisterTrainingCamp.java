@@ -1,4 +1,6 @@
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,13 +13,21 @@ import java.util.List;
 
 public class FullRegisterTrainingCamp {
 
+    private WebDriver driver;
+
+    @Before
+    public void initialize() {
+        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
+        driver = new FirefoxDriver();
+        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+    }
+    @After
+    public void quit() {
+        driver.quit();
+    }
+
     @Test
     public void shouldCompleteRegister() {
-
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
-
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 
         driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria Eduarda");
         driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Araújo");
@@ -48,8 +58,6 @@ public class FullRegisterTrainingCamp {
         Assert.assertEquals("Escolaridade: superior", driver.findElement(By.id("descEscolaridade")).getText());
         Assert.assertEquals("Esportes: Natacao Corrida Karate", driver.findElement(By.id("descEsportes")).getText());
         Assert.assertEquals("Sugestoes: Essa é uma sugestão", driver.findElement(By.id("descSugestoes")).getText());
-
-        driver.quit();
 
     }
 }

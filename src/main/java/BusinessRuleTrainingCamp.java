@@ -1,4 +1,6 @@
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -9,12 +11,24 @@ import org.openqa.selenium.support.ui.Select;
 
 public class BusinessRuleTrainingCamp {
 
+    private WebDriver driver;
+    private DSL dsl;
+
+    @Before
+    public void initialize() {
+        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
+        driver = new FirefoxDriver();
+        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+        dsl = new DSL(driver);
+    }
+
+    @After
+    public void quit() {
+        driver.quit();
+    }
+
     @Test
     public void shouldValiateRequiredName() {
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
-
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 
         driver.findElement(By.id("elementosForm:cadastrar")).click();
 
@@ -24,20 +38,14 @@ public class BusinessRuleTrainingCamp {
 
         Assert.assertEquals("Nome eh obrigatorio", msg);
 
-        driver.quit();
     }
 
     @Test
     public void shouldValidateSurnameRequired() {
 
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
+        dsl.write("elementosForm:nome", "Maria Eduarda");
 
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
-
-        driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria Eduarda");
-
-        driver.findElement(By.id("elementosForm:cadastrar")).click();
+        dsl.click("elementosForm:cadastrar");
 
         Alert alert = driver.switchTo().alert();
 
@@ -45,17 +53,10 @@ public class BusinessRuleTrainingCamp {
 
         Assert.assertEquals("Sobrenome eh obrigatorio", msg);
 
-        driver.quit();
-
     }
 
     @Test
     public void shouldValidateSexField() {
-
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
-
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 
         driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria Eduarda");
         driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Araujo");
@@ -68,16 +69,10 @@ public class BusinessRuleTrainingCamp {
 
         Assert.assertEquals("Sexo eh obrigatorio", msg);
 
-        driver.quit();
-
     }
 
     @Test
     public void shouldValidateFavoriteFoodRule() {
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
-
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 
         driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria Eduarda");
         driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Araujo");
@@ -95,17 +90,10 @@ public class BusinessRuleTrainingCamp {
 
         Assert.assertEquals("Tem certeza que voce eh vegetariano?", msg);
 
-        driver.quit();
-
     }
 
     @Test
     public void shouldValidateSportsRule() {
-
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
-
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 
         driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria Eduarda");
         driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Araujo");
@@ -127,10 +115,7 @@ public class BusinessRuleTrainingCamp {
 
         Assert.assertEquals("Voce faz esporte ou nao?", msg);
 
-        driver.quit();
-
     }
-
 
 
 }
