@@ -10,12 +10,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class FrameAndWindowsTrainingCamp {
 
     private WebDriver driver;
+    private DSL dsl;
 
     @Before
     public void initialize() {
         System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
         driver = new FirefoxDriver();
         driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+        dsl = new DSL(driver);
     }
     @After
     public void quit() {
@@ -25,45 +27,38 @@ public class FrameAndWindowsTrainingCamp {
     @Test
     public void shouldClickOnFrame() {
 
-        driver.switchTo().frame("frame1");
 
-        driver.findElement(By.id("frameButton")).click();
-
-        Alert alert = driver.switchTo().alert();
-
-        Assert.assertEquals("Frame OK!", alert.getText());
-
-        String msg = alert.getText();
-
-        alert.accept();
-
-        driver.switchTo().defaultContent();
-
-        driver.findElement(By.id("elementosForm:nome")).sendKeys(msg);
+        dsl.enterFrame("frame1");
+        dsl.click("frameButton");
+        String msg = dsl.readAndAcceptAlert();
+        Assert.assertEquals("Frame OK!", msg);
+        dsl.exitFrame();
+        dsl.write("elementosForm:nome", msg);
 
     }
 
     @Test
     public void shouldClickOnNamedExternalWindow(){
 
-        driver.findElement(By.id("buttonPopUpEasy")).click();
+        dsl.click("buttonPopUpEasy");
 
-        driver.switchTo().window("Popup");
+        dsl.switchWindow("Popup");
 
-        driver.findElement(By.tagName("textarea")).sendKeys("Deu certo!");
+        dsl.writeByTagName("textarea", "Deu certo!");
 
         driver.close();
 
-        driver.switchTo().window((String) driver.getWindowHandles().toArray()[0]);
+        dsl.switchWindow((String) driver.getWindowHandles().toArray()[0]);
 
-        driver.findElement(By.tagName("textarea")).sendKeys("Deu certo!");
+        dsl.writeByTagName("textarea", "Deu certo!");
+
 
     }
 
     @Test
     public void shouldClickOnAdvancedExternalWindow() {
 
-        driver.findElement(By.id("buttonPopUpHard")).click();
+        dsl.click("buttonPopUpHard");
 
         System.out.println(driver.getWindowHandle());
         System.out.println(driver.getWindowHandles());

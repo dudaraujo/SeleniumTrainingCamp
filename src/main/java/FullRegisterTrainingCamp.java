@@ -14,12 +14,14 @@ import java.util.List;
 public class FullRegisterTrainingCamp {
 
     private WebDriver driver;
+    private DSL dsl;
 
     @Before
     public void initialize() {
         System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
         driver = new FirefoxDriver();
         driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+        dsl = new DSL(driver);
     }
     @After
     public void quit() {
@@ -29,35 +31,32 @@ public class FullRegisterTrainingCamp {
     @Test
     public void shouldCompleteRegister() {
 
-        driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria Eduarda");
-        driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Araújo");
-        driver.findElement(By.id("elementosForm:sexo:1")).click();
-        driver.findElement(By.id("elementosForm:comidaFavorita:2")).click();
+        dsl.write("elementosForm:nome", "Maria Eduarda");
+        dsl.write("elementosForm:sobrenome", "Araújo");
+        dsl.click("elementosForm:sexo:1");
+        dsl.click("elementosForm:comidaFavorita:2");
 
-        WebElement element =  driver.findElement(By.id("elementosForm:escolaridade"));
-        Select combo = new Select(element);
-        combo.selectByVisibleText("Superior");
+        dsl.selectCombo("elementosForm:escolaridade", "Superior");
 
-        WebElement element2 = driver.findElement(By.id("elementosForm:esportes"));
-        Select combo2 = new Select(element2);
-        combo2.selectByVisibleText("Natacao");
-        combo2.selectByVisibleText("Corrida");
-        combo2.selectByVisibleText("Karate");
 
-        List<WebElement> AllSelectedOptions =  combo2.getAllSelectedOptions();
+        dsl.selectCombo("elementosForm:esportes", "Natacao");
+        dsl.selectCombo("elementosForm:esportes", "Corrida");
+        dsl.selectCombo("elementosForm:esportes", "Karate");
 
-        driver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Essa é uma sugestão");
+        dsl.write("elementosForm:sugestoes", "Essa é uma sugestão");
 
-        driver.findElement(By.id("elementosForm:cadastrar")).click();
 
-        Assert.assertTrue(driver.findElement(By.id("resultado")).getText().startsWith("Cadastrado!"));
-        Assert.assertTrue(driver.findElement(By.id("descNome")).getText().endsWith("Maria Eduarda"));
-        Assert.assertEquals("Sobrenome: Araújo", driver.findElement(By.id("descSobrenome")).getText());
-        Assert.assertEquals("Sexo: Feminino", driver.findElement(By.id("descSexo")).getText());
-        Assert.assertEquals("Comida: Pizza", driver.findElement(By.id("descComida")).getText());
-        Assert.assertEquals("Escolaridade: superior", driver.findElement(By.id("descEscolaridade")).getText());
-        Assert.assertEquals("Esportes: Natacao Corrida Karate", driver.findElement(By.id("descEsportes")).getText());
-        Assert.assertEquals("Sugestoes: Essa é uma sugestão", driver.findElement(By.id("descSugestoes")).getText());
+        dsl.click("elementosForm:cadastrar");
+
+        Assert.assertTrue(dsl.getFieldText(By.id("resultado")).startsWith("Cadastrado"));
+        Assert.assertTrue(dsl.getFieldText(By.id("descNome")).endsWith("Maria Eduarda"));
+        Assert.assertEquals("Sobrenome: Araújo", dsl.getFieldText(By.id("descSobrenome")));
+        Assert.assertEquals("Sexo: Feminino", dsl.getFieldText(By.id("descSexo")));
+        Assert.assertEquals("Comida: Pizza", dsl.getFieldText(By.id("descComida")));
+        Assert.assertEquals("Escolaridade: superior", dsl.getFieldText(By.id("descEscolaridade")));
+        Assert.assertEquals("Esportes: Natacao Corrida Karate", dsl.getFieldText(By.id("descEsportes")));
+        Assert.assertEquals("Sugestoes: Essa é uma sugestão", dsl.getFieldText(By.id("descSugestoes")));
+
 
     }
 }

@@ -10,12 +10,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class AlertTrainingCamp {
 
     private WebDriver driver;
+    private DSL dsl;
 
     @Before
     public void initialize() {
         System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
         driver = new FirefoxDriver();
         driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+        dsl = new DSL(driver);
     }
     @After
     public void quit() {
@@ -25,68 +27,45 @@ public class AlertTrainingCamp {
     @Test
     public void shoulClickOnSimpleAlert() {
 
-        driver.findElement(By.id("alert")).click();
-        Alert alert = driver.switchTo().alert();
-        String text = alert.getText();
-
+        dsl.click("alert");
+        String text = dsl.readAndAcceptAlert();
         Assert.assertEquals("Alert Simples", text);
 
-        alert.accept();
-        driver.findElement(By.id("elementosForm:nome")).sendKeys("Alert Simples");
+        dsl.write("elementosForm:nome", text);
 
     }
 
     @Test
     public void shouldClickInOkayOnConfirmeAlert() {
 
-        driver.findElement(By.id("confirm")).click();
-        Alert alert = driver.switchTo().alert();
-        String text = alert.getText();
+        dsl.click("confirm");
 
-        Assert.assertEquals("Confirm Simples", text);
-
-        alert.accept();
-
-        Assert.assertEquals("Confirmado", alert.getText());
-
-        alert.accept();
+        Assert.assertEquals("Confirm Simples", dsl.readAndAcceptAlert());
+        Assert.assertEquals("Confirmado", dsl.readAndAcceptAlert());
 
     }
 
     @Test
     public void shouldClickInCancelOnConfirmeAlert() {
 
-        driver.findElement(By.id("confirm")).click();
-        Alert alert = driver.switchTo().alert();
-        String text = alert.getText();
+        dsl.click("confirm");
 
-        Assert.assertEquals("Confirm Simples", text);
+        Assert.assertEquals("Confirm Simples", dsl.readAndRecuseAlert());
 
-        alert.dismiss();
-
-        Assert.assertEquals("Negado", alert.getText());
-
-        alert.accept();
+        Assert.assertEquals("Negado", dsl.readAndAcceptAlert());
 
     }
 
     @Test
     public void shouldClickAndWriteOnPromptAlert() {
 
-        driver.findElement(By.id("prompt")).click();
-        Alert alert = driver.switchTo().alert();
+        dsl.click("prompt");
+        Assert.assertEquals("Digite um numero", dsl.readAlert());
+        dsl.writeAlert("100");
 
-        Assert.assertEquals("Digite um numero", alert.getText());
+        Assert.assertEquals("Era 100?", dsl.readAndAcceptAlert());
 
-        alert.sendKeys("100");
-
-        alert.accept();
-
-        Assert.assertEquals("Era 100?", alert.getText());
-
-        alert.accept();
-
-        Assert.assertEquals(":D", alert.getText());
+        Assert.assertEquals(":D", dsl.readAndAcceptAlert());
 
     }
 

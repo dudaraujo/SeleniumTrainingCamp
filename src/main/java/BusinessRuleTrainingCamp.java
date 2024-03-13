@@ -30,13 +30,9 @@ public class BusinessRuleTrainingCamp {
     @Test
     public void shouldValiateRequiredName() {
 
-        driver.findElement(By.id("elementosForm:cadastrar")).click();
+        dsl.click("elementosForm:cadastrar");
 
-        Alert alert = driver.switchTo().alert();
-
-        String msg = alert.getText();
-
-        Assert.assertEquals("Nome eh obrigatorio", msg);
+        Assert.assertEquals("Nome eh obrigatorio", dsl.readAndAcceptAlert());
 
     }
 
@@ -44,78 +40,58 @@ public class BusinessRuleTrainingCamp {
     public void shouldValidateSurnameRequired() {
 
         dsl.write("elementosForm:nome", "Maria Eduarda");
-
         dsl.click("elementosForm:cadastrar");
 
-        Alert alert = driver.switchTo().alert();
-
-        String msg = alert.getText();
-
-        Assert.assertEquals("Sobrenome eh obrigatorio", msg);
+        Assert.assertEquals("Sobrenome eh obrigatorio", dsl.readAndAcceptAlert());
 
     }
 
     @Test
     public void shouldValidateSexField() {
 
-        driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria Eduarda");
-        driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Araujo");
+        dsl.write("elementosForm:nome", "Maria Eduarda");
+        dsl.write("elementosForm:sobrenome", "Araújo");
+        dsl.click("elementosForm:cadastrar");
 
-        driver.findElement(By.id("elementosForm:cadastrar")).click();
-
-        Alert alert = driver.switchTo().alert();
-
-        String msg = alert.getText();
-
-        Assert.assertEquals("Sexo eh obrigatorio", msg);
+        Assert.assertEquals("Sexo eh obrigatorio", dsl.readAndAcceptAlert());
 
     }
 
     @Test
     public void shouldValidateFavoriteFoodRule() {
 
-        driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria Eduarda");
-        driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Araujo");
-        driver.findElement(By.id("elementosForm:sexo:1")).click();
+        dsl.write("elementosForm:nome", "Maria Eduarda");
+        dsl.write("elementosForm:sobrenome", "Araújo");
+        dsl.click("elementosForm:sexo:1");
 
-        driver.findElement(By.id("elementosForm:comidaFavorita:0")).click();
-        driver.findElement(By.id("elementosForm:comidaFavorita:3")).click();
+        dsl.click("elementosForm:comidaFavorita:0");
+        dsl.click("elementosForm:comidaFavorita:3");
 
+        dsl.click("elementosForm:cadastrar");
 
-        driver.findElement(By.id("elementosForm:cadastrar")).click();
-
-        Alert alert = driver.switchTo().alert();
-
-        String msg = alert.getText();
-
-        Assert.assertEquals("Tem certeza que voce eh vegetariano?", msg);
+        Assert.assertEquals("Tem certeza que voce eh vegetariano?", dsl.readAndAcceptAlert());
 
     }
 
     @Test
     public void shouldValidateSportsRule() {
 
-        driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria Eduarda");
-        driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Araujo");
-        driver.findElement(By.id("elementosForm:sexo:1")).click();
-        driver.findElement(By.id("elementosForm:comidaFavorita:0")).click();
+        dsl.write("elementosForm:nome", "Maria Eduarda");
+        dsl.write("elementosForm:sobrenome", "Araújo");
+        dsl.click("elementosForm:sexo:1");
+        dsl.click("elementosForm:comidaFavorita:0");
 
-        WebElement element = driver.findElement(By.id("elementosForm:esportes"));
+        dsl.selectCombo("elementosForm:esportes", "Corrida");
+        dsl.selectCombo("elementosForm:esportes", "O que eh esporte?");
 
-        Select combo = new Select(element);
 
-        combo.selectByVisibleText("Corrida");
-        combo.selectByVisibleText("O que eh esporte?");
+        dsl.click("elementosForm:cadastrar");
 
-        driver.findElement(By.id("elementosForm:cadastrar")).click();
 
-        Alert alert = driver.switchTo().alert();
-
-        String msg = alert.getText();
-
-        Assert.assertEquals("Voce faz esporte ou nao?", msg);
+        Assert.assertEquals("Voce faz esporte ou nao?", dsl.readAndAcceptAlert());
 
     }
+
 
 
 }
