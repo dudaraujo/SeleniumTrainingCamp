@@ -18,12 +18,15 @@ public class BasicTrainingCamp {
     private WebDriver driver;
     private DSL dsl;
 
+    private TrainingCampPage page;
+
     @Before
     public void initialize() {
         System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
         driver = new FirefoxDriver();
         driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
         dsl = new DSL(driver);
+        page = new TrainingCampPage(driver);
     }
     @After
     public void quit() {
@@ -33,51 +36,46 @@ public class BasicTrainingCamp {
     @Test
     public void shouldWriteInNameField() {
 
-        dsl.write("elementosForm:nome", "Maria Eduarda");
-        Assert.assertEquals("Maria Eduarda", dsl.getFieldValue("elementosForm:nome"));
-
+        page.setName("Maria Eduarda");
+        Assert.assertEquals("Maria Eduarda", page.getName());
     }
 
     @Test
     public void shouldWriteTwoTimesisNameField() {
-        dsl.write("elementosForm:nome", "Maria Eduarda");
-        Assert.assertEquals("Maria Eduarda", dsl.getFieldValue("elementosForm:nome"));
-        dsl.write("elementosForm:nome", "Dudinha");
-        Assert.assertEquals("Dudinha", dsl.getFieldValue("elementosForm:nome"));
+
+        page.setName("Maria Eduarda");
+        Assert.assertEquals("Maria Eduarda", page.getName());
+        page.setName("Dudinha");
+        Assert.assertEquals("Dudinha", page.getName());
+
     }
     @Test
     public void shouldWriteInTextArea() {
 
-        dsl.write("elementosForm:sugestoes","Esse é um campo de área grande");
-        Assert.assertEquals("Esse é um campo de área grande", dsl.getFieldValue("elementosForm:sugestoes"));
-
+        page.setSuggestion("Esse é um campo de área grande");
+        Assert.assertEquals("Esse é um campo de área grande", page.getSuggestion());
     }
 
     @Test
     public void shouldCheckRadioButton() {
 
-        dsl.click("elementosForm:sexo:1");
-
-        Assert.assertTrue(dsl.getFieldSelected("elementosForm:sexo:1"));
+        page.setFemale();
+        Assert.assertTrue(page.getFemale());
 
     }
 
     @Test
     public void shouldClickOnCheckButton() {
 
-        dsl.click("elementosForm:comidaFavorita:2");
-
-        Assert.assertTrue(dsl.getFieldSelected("elementosForm:comidaFavorita:2"));
-
+        page.setFavoriteFoodPizza();
+        Assert.assertTrue(page.getFavoriteFoodPizza());
     }
 
     @Test
     public  void shouldSelectComboField() {
 
-        dsl.selectCombo("elementosForm:escolaridade", "Superior");
-
-        Assert.assertEquals("Superior", dsl.getFirstSelectedComboOption("elementosForm:escolaridade"));
-
+        page.setGraduation("Superior");
+        Assert.assertEquals("Superior", page.getGraduation());
     }
 
 
@@ -93,9 +91,7 @@ public class BasicTrainingCamp {
     @Test
     public void shoulSelectSeveralOptions() {
 
-        dsl.selectCombo("elementosForm:esportes", "Natacao");
-        dsl.selectCombo("elementosForm:esportes", "Corrida");
-        dsl.selectCombo("elementosForm:esportes", "Karate");
+        page.setSport("Natacao", "Corrida", "Karate");
 
 
         List allSelectedOptions = dsl.getComboValues("elementosForm:esportes");

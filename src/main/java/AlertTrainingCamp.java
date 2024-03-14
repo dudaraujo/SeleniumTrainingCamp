@@ -12,12 +12,15 @@ public class AlertTrainingCamp {
     private WebDriver driver;
     private DSL dsl;
 
+    private TrainingCampPage page;
+
     @Before
     public void initialize() {
         System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
         driver = new FirefoxDriver();
         driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
         dsl = new DSL(driver);
+        page = new TrainingCampPage(driver);
     }
     @After
     public void quit() {
@@ -27,28 +30,27 @@ public class AlertTrainingCamp {
     @Test
     public void shoulClickOnSimpleAlert() {
 
-        dsl.click("alert");
+        page.setSimpleAlertButton();
         String text = dsl.readAndAcceptAlert();
         Assert.assertEquals("Alert Simples", text);
 
-        dsl.write("elementosForm:nome", text);
+        page.setName(text);
 
     }
 
     @Test
     public void shouldClickInOkayOnConfirmeAlert() {
 
-        dsl.click("confirm");
+        page.setConfirmAlertButton();
 
         Assert.assertEquals("Confirm Simples", dsl.readAndAcceptAlert());
         Assert.assertEquals("Confirmado", dsl.readAndAcceptAlert());
-
     }
 
     @Test
     public void shouldClickInCancelOnConfirmeAlert() {
 
-        dsl.click("confirm");
+        page.setConfirmAlertButton();
 
         Assert.assertEquals("Confirm Simples", dsl.readAndRecuseAlert());
 
@@ -59,7 +61,7 @@ public class AlertTrainingCamp {
     @Test
     public void shouldClickAndWriteOnPromptAlert() {
 
-        dsl.click("prompt");
+        page.setPromptAlertButton();
         Assert.assertEquals("Digite um numero", dsl.readAlert());
         dsl.writeAlert("100");
 
