@@ -31,6 +31,11 @@ public class DSL {
         driver.findElement(By.id(idField)).click();
     }
 
+    public void clickXpath(String idField) {
+
+        driver.findElement(By.xpath(idField)).click();
+    }
+
     public void clickOnLink(String linkFiled) {
         driver.findElement(By.linkText(linkFiled)).click();
     }
@@ -159,6 +164,7 @@ public class DSL {
         String msg = alert.getText();
 
         return msg;
+
     }
 
     public void writeAlert(String text) {
@@ -175,7 +181,46 @@ public class DSL {
 
     }
 
+    public void clickOnTableButton(String searchColumn, String value, String buttonColumn, String idTable) {
+        //encontrar coluna do registro
+        WebElement table = driver.findElement(By.xpath("//table[@id='elementosForm:tableUsuarios']"));
+        int idColumn = getColumnIndice(searchColumn, table);
 
+        //encontrar linha do registro
+        int idLine = getLineIndice(value, table, idColumn);
 
+        //procurar coluna do botão
+        int idButtonColumn = getColumnIndice(buttonColumn, table);
+
+        //clicar no botão da célula encontrada
+        WebElement celula = table.findElement(By.xpath(".//tr["+idLine+"]/td["+idButtonColumn+"]"));
+        celula.findElement(By.xpath(".//input")).click();
+    }
+
+    public int getColumnIndice( String searchColumn, WebElement table) {
+        List<WebElement> columns = table.findElements(By.xpath(".//th"));
+        int idColumn = -1;
+        for (int i = 0; i < columns.size(); i++) {
+            if (columns.get(i).getText().equals(searchColumn)) {
+                idColumn = i + 1;
+                break;
+            }
+        }
+        return idColumn;
+
+    }
+
+    public int getLineIndice(String value, WebElement table, int idColumn) {
+        List<WebElement> lines = table.findElements(By.xpath("./tbody/tr/td["+idColumn+"]"));
+        int idLine = -1;
+        for (int i = 0; i < lines.size(); i++) {
+            if (lines.get(i).getText().equals(value)) {
+                idLine = i + 1;
+                break;
+            }
+        }
+        return idLine;
+
+    }
 
 }

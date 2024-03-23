@@ -22,6 +22,7 @@ public class FrameAndWindowsTrainingCamp {
     }
     @After
     public void quit() {
+
         driver.quit();
     }
 

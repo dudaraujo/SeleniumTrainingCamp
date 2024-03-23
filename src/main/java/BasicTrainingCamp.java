@@ -145,4 +145,9 @@ public class BasicTrainingCamp {
         js.executeScript("arguments[0].style.border = arguments[1]", element, "solid 4px red");
     }
 
+    @Test
+    public void shouldClickOnTableButton() {
+        dsl.clickOnTableButton("Nome", "Maria", "Botao",  "elementosForm:tableUsuarios");
+    }
+
 }
