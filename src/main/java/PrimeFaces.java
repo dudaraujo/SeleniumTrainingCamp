@@ -1,28 +1,26 @@
+import br.ce.dudaraujo.core.DSL;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import static br.ce.dudaraujo.core.DriverFactory.getDriver;
 
 public class PrimeFaces {
 
-    private WebDriver driver;
     private DSL dsl;
 
 
     @Before
     public void initialize() {
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        driver = new FirefoxDriver();
-        driver.get("https://www.primefaces.org/showcase/ui/input/oneMenu.xhtml?jfwid=2f037");
-        dsl = new DSL(driver);
+       getDriver().get("https://www.primefaces.org/showcase/ui/input/oneMenu.xhtml?jfwid=2f037");
+        dsl = new DSL();
 
     }
     @After
     public void quit() {
-        driver.quit();
+       getDriver().quit();
     }
 
     @Test

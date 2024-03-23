@@ -1,29 +1,28 @@
+import br.ce.dudaraujo.core.DSL;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import static br.ce.dudaraujo.core.DriverFactory.getDriver;
+import static br.ce.dudaraujo.core.DriverFactory.killDriver;
+
 public class FrameAndWindowsTrainingCamp {
 
-    private WebDriver driver;
     private DSL dsl;
 
     @Before
     public void initialize() {
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        driver = new FirefoxDriver();
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
-        dsl = new DSL(driver);
+        getDriver().get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+        dsl = new DSL();
     }
     @After
     public void quit() {
-
-        driver.quit();
+        killDriver();
     }
 
     @Test
@@ -48,9 +47,9 @@ public class FrameAndWindowsTrainingCamp {
 
         dsl.writeByTagName("textarea", "Deu certo!");
 
-        driver.close();
+        getDriver().close();
 
-        dsl.switchWindow((String) driver.getWindowHandles().toArray()[0]);
+        dsl.switchWindow((String) getDriver().getWindowHandles().toArray()[0]);
 
         dsl.writeByTagName("textarea", "Deu certo!");
 
@@ -62,22 +61,22 @@ public class FrameAndWindowsTrainingCamp {
 
         dsl.click("buttonPopUpHard");
 
-        System.out.println(driver.getWindowHandle());
-        System.out.println(driver.getWindowHandles());
+        System.out.println(getDriver().getWindowHandle());
+        System.out.println(getDriver().getWindowHandles());
 
-        driver.switchTo().window((String)driver.getWindowHandles().toArray()[1]);
+        getDriver().switchTo().window((String)getDriver().getWindowHandles().toArray()[1]);
 
-        driver.findElement(By.tagName("textarea")).sendKeys("Deu certo a pop up dificil");
+        getDriver().findElement(By.tagName("textarea")).sendKeys("Deu certo a pop up dificil");
 
-        driver.switchTo().window((String)driver.getWindowHandles().toArray()[0]);
+        getDriver().switchTo().window((String)getDriver().getWindowHandles().toArray()[0]);
 
-        driver.findElement(By.tagName("textarea")).sendKeys("Deu certo a pop up dificil");
+        getDriver().findElement(By.tagName("textarea")).sendKeys("Deu certo a pop up dificil");
 
     }
 
     @Test
     public void shouldClickOnHiddenFrame(){
-        WebElement frame = driver.findElement(By.id("frame2"));
+        WebElement frame = getDriver().findElement(By.id("frame2"));
         dsl.executarJs("window.scrollBy(0, arguments[0])", frame.getLocation().y);
         dsl.enterFrame("frame2");
         dsl.click("frameButton");

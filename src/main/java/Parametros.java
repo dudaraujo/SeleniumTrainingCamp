@@ -1,10 +1,10 @@
+import br.ce.dudaraujo.core.DSL;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -12,12 +12,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import static br.ce.dudaraujo.core.DriverFactory.getDriver;
+import static br.ce.dudaraujo.core.DriverFactory.killDriver;
+
 @RunWith(Parameterized.class)
 public class Parametros {
 
 
-
-        private WebDriver driver;
         private DSL dsl;
         private TrainingCampPage page;
 
@@ -37,16 +38,14 @@ public class Parametros {
 
         @Before
         public void inicializa(){
-            System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-            driver = new FirefoxDriver();
-            driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
-            dsl = new DSL(driver);
-            page = new TrainingCampPage(driver);
+            getDriver().get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+            dsl = new DSL();
+            page = new TrainingCampPage();
         }
 
         @After
         public void finaliza(){
-            driver.quit();
+           killDriver();
         }
 
         @Parameterized.Parameters

@@ -1,34 +1,32 @@
+import br.ce.dudaraujo.core.DSL;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import static br.ce.dudaraujo.core.DriverFactory.getDriver;
+import static br.ce.dudaraujo.core.DriverFactory.killDriver;
 
 
 public class BasicTrainingCamp {
 
-    private WebDriver driver;
     private DSL dsl;
 
     private TrainingCampPage page;
 
     @Before
     public void initialize() {
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        driver = new FirefoxDriver();
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
-        dsl = new DSL(driver);
-        page = new TrainingCampPage(driver);
+        getDriver().get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+        dsl = new DSL();
+        page = new TrainingCampPage();
     }
     @After
     public void quit() {
-        //driver.quit();
+        killDriver();
     }
 
     @Test
@@ -136,12 +134,12 @@ public class BasicTrainingCamp {
 
     @Test
     public void testJavaScript() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("document.getElementById('elementosForm:nome').value = 'Escrita via JS'");
         //js.executeScript("alert('Testando JS')");
 
 
-        WebElement element = driver.findElement(By.id("elementosForm:nome"));
+        WebElement element = getDriver().findElement(By.id("elementosForm:nome"));
         js.executeScript("arguments[0].style.border = arguments[1]", element, "solid 4px red");
     }
 

@@ -1,3 +1,5 @@
+package br.ce.dudaraujo.core;
+
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
@@ -5,99 +7,94 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.ce.dudaraujo.core.DriverFactory.getDriver;
+
 public class DSL {
-
-    private WebDriver driver;
-
-
-    public DSL(WebDriver driver) {
-        this.driver = driver;
-    }
 
     public void write(String idField, String text) {
 
-        driver.findElement(By.id(idField)).clear();
-        driver.findElement(By.id(idField)).sendKeys(text);
+        getDriver().findElement(By.id(idField)).clear();
+        getDriver().findElement(By.id(idField)).sendKeys(text);
     }
 
     public void writeByTagName(String tagField, String text) {
 
-        driver.findElement(By.tagName(tagField)).clear();
-        driver.findElement(By.tagName(tagField)).sendKeys(text);
+        getDriver().findElement(By.tagName(tagField)).clear();
+        getDriver().findElement(By.tagName(tagField)).sendKeys(text);
     }
 
     public void click(String idField) {
 
-        driver.findElement(By.id(idField)).click();
+        getDriver().findElement(By.id(idField)).click();
     }
 
     public void clickXpath(String idField) {
 
-        driver.findElement(By.xpath(idField)).click();
+        getDriver().findElement(By.xpath(idField)).click();
     }
 
     public void clickOnLink(String linkFiled) {
-        driver.findElement(By.linkText(linkFiled)).click();
+        getDriver().findElement(By.linkText(linkFiled)).click();
     }
 
     public String getFieldValue(String idField) {
-        return driver.findElement(By.id(idField)).getAttribute("value");
+        return getDriver().findElement(By.id(idField)).getAttribute("value");
     }
 
     public String getFieldText(By by) {
-        return driver.findElement(by).getText();
+        return getDriver().findElement(by).getText();
     }
 
 
     public boolean getFieldSelected(String idField) {
-        return driver.findElement(By.id(idField)).isSelected();
+        return getDriver().findElement(By.id(idField)).isSelected();
     }
 
     public void getField(String idField) {
-        driver.findElement(By.id(idField));
+        getDriver().findElement(By.id(idField));
     }
 
     public void enterFrame(String frameName) {
-        driver.switchTo().frame(frameName);
+        getDriver().switchTo().frame(frameName);
     }
 
     public void exitFrame() {
-        driver.switchTo().defaultContent();
+        getDriver().switchTo().defaultContent();
     }
 
     public void switchWindow(String id) {
-        driver.switchTo().window(id);
+        getDriver().switchTo().window(id);
     }
 
 
 
     public void selectCombo(String idField, String option) {
 
-        WebElement element = driver.findElement(By.id(idField));
+        WebElement element = getDriver().findElement(By.id(idField));
         Select combo = new Select(element);
         combo.selectByVisibleText(option);
     }
 
     public void deselectCombo(String idField, String sport) {
-        WebElement element = driver.findElement(By.id(idField));
+        WebElement element = getDriver().findElement(By.id(idField));
         Select combo = new Select(element);
         combo.deselectByVisibleText(sport);
 
     }
 
     public String  getFirstSelectedComboOption(String idField) {
-        WebElement element = driver.findElement(By.id(idField));
+        WebElement element = getDriver().findElement(By.id(idField));
         Select combo = new Select(element);
         return combo.getFirstSelectedOption().getText();
     }
 
     public void buttonClick(String idField) {
-        WebElement button = driver.findElement(By.id(idField));
+        WebElement button = getDriver().findElement(By.id(idField));
         button.click();
     }
 
     public int getNumberOptionsComboField(String idField) {
-        WebElement element = driver.findElement(By.id(idField));
+        WebElement element = getDriver().findElement(By.id(idField));
 
         Select combo = new Select(element);
 
@@ -108,7 +105,7 @@ public class DSL {
     }
 
     public boolean getOptionComboField(String idField, String curso) {
-        WebElement element = driver.findElement(By.id(idField));
+        WebElement element = getDriver().findElement(By.id(idField));
 
         Select combo = new Select(element);
 
@@ -128,7 +125,7 @@ public class DSL {
 
     public List getComboValues(String idField) {
 
-        WebElement element = driver.findElement(By.id(idField));
+        WebElement element = getDriver().findElement(By.id(idField));
 
         Select combo = new Select(element);
 
@@ -139,7 +136,7 @@ public class DSL {
     }
 
     public String readAndAcceptAlert() {
-        Alert alert = driver.switchTo().alert();
+        Alert alert = getDriver().switchTo().alert();
 
         String msg = alert.getText();
 
@@ -149,7 +146,7 @@ public class DSL {
     }
 
     public String readAndRecuseAlert() {
-        Alert alert = driver.switchTo().alert();
+        Alert alert = getDriver().switchTo().alert();
 
         String msg = alert.getText();
 
@@ -159,7 +156,7 @@ public class DSL {
     }
 
     public String readAlert() {
-        Alert alert = driver.switchTo().alert();
+        Alert alert = getDriver().switchTo().alert();
 
         String msg = alert.getText();
 
@@ -168,7 +165,7 @@ public class DSL {
     }
 
     public void writeAlert(String text) {
-        Alert alert = driver.switchTo().alert();
+        Alert alert = getDriver().switchTo().alert();
 
         alert.sendKeys(text);
         alert.accept();
@@ -176,14 +173,14 @@ public class DSL {
     }
 
     public Object executarJs(String cmd, Object ... param) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
         return js.executeScript(cmd, param);
 
     }
 
     public void clickOnTableButton(String searchColumn, String value, String buttonColumn, String idTable) {
         //encontrar coluna do registro
-        WebElement table = driver.findElement(By.xpath("//table[@id='elementosForm:tableUsuarios']"));
+        WebElement table = getDriver().findElement(By.xpath("//table[@id='elementosForm:tableUsuarios']"));
         int idColumn = getColumnIndice(searchColumn, table);
 
         //encontrar linha do registro

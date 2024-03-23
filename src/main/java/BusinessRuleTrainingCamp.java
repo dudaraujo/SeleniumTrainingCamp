@@ -1,33 +1,30 @@
+import br.ce.dudaraujo.core.DSL;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
+
+import static br.ce.dudaraujo.core.DriverFactory.getDriver;
+import static br.ce.dudaraujo.core.DriverFactory.killDriver;
 
 public class BusinessRuleTrainingCamp {
 
-    private WebDriver driver;
     private DSL dsl;
 
     private TrainingCampPage page;
 
     @Before
     public void initialize() {
-        System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-        driver = new FirefoxDriver();
-        driver.get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
-        dsl = new DSL(driver);
-        page = new TrainingCampPage(driver);
+        getDriver().get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+        dsl = new DSL();
+        page = new TrainingCampPage();
     }
 
     @After
     public void quit() {
-        driver.quit();
+       killDriver();
     }
 
     @Test
