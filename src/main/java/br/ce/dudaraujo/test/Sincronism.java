@@ -1,3 +1,6 @@
+package br.ce.dudaraujo.test;
+
+import br.ce.dudaraujo.core.BaseTest;
 import br.ce.dudaraujo.core.DSL;
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import static br.ce.dudaraujo.core.DriverFactory.getDriver;
 
-public class Sincronism {
+public class Sincronism extends BaseTest {
 
     private DSL dsl;
 
@@ -21,10 +24,6 @@ public class Sincronism {
     public void initialize() {
         getDriver().get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
         dsl = new DSL();
-    }
-    @After
-    public void quit() {
-        getDriver().quit();
     }
 
     @Test

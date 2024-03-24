@@ -1,4 +1,7 @@
+package br.ce.dudaraujo.test;
+
 import br.ce.dudaraujo.core.DSL;
+import br.ce.dudaraujo.page.TrainingCampPage;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

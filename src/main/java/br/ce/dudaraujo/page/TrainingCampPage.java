@@ -1,13 +1,12 @@
+package br.ce.dudaraujo.page;
+
+import br.ce.dudaraujo.core.BasePage;
 import br.ce.dudaraujo.core.DSL;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class TrainingCampPage {
+public class TrainingCampPage extends BasePage {
 
-    private DSL dsl;
-    public TrainingCampPage() {
-        dsl = new DSL();
-    }
 
 
     public String getName() {

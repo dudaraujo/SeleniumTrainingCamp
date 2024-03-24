@@ -1,4 +1,8 @@
+package br.ce.dudaraujo.test;
+
+import br.ce.dudaraujo.core.BaseTest;
 import br.ce.dudaraujo.core.DSL;
+import br.ce.dudaraujo.page.TrainingCampPage;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +16,7 @@ import static br.ce.dudaraujo.core.DriverFactory.getDriver;
 import static br.ce.dudaraujo.core.DriverFactory.killDriver;
 
 
-public class BasicTrainingCamp {
+public class BasicTrainingCamp extends BaseTest {
 
     private DSL dsl;
 
@@ -24,10 +28,7 @@ public class BasicTrainingCamp {
         dsl = new DSL();
         page = new TrainingCampPage();
     }
-    @After
-    public void quit() {
-        killDriver();
-    }
+
 
     @Test
     public void shouldWriteInNameField() {

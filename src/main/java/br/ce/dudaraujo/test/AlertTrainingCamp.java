@@ -1,4 +1,8 @@
+package br.ce.dudaraujo.test;
+
+import br.ce.dudaraujo.core.BaseTest;
 import br.ce.dudaraujo.core.DSL;
+import br.ce.dudaraujo.page.TrainingCampPage;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,7 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import static br.ce.dudaraujo.core.DriverFactory.getDriver;
 import static br.ce.dudaraujo.core.DriverFactory.killDriver;
 
-public class AlertTrainingCamp {
+public class AlertTrainingCamp extends BaseTest {
     private DSL dsl;
 
     private TrainingCampPage page;
@@ -19,10 +23,6 @@ public class AlertTrainingCamp {
         getDriver().get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
         dsl = new DSL();
         page = new TrainingCampPage();
-    }
-    @After
-    public void quit() {
-        killDriver();
     }
 
     @Test

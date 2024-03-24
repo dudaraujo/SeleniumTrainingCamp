@@ -1,3 +1,6 @@
+package br.ce.dudaraujo.test;
+
+import br.ce.dudaraujo.core.BaseTest;
 import br.ce.dudaraujo.core.DSL;
 import org.junit.*;
 import org.openqa.selenium.By;
@@ -9,7 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static br.ce.dudaraujo.core.DriverFactory.getDriver;
 import static br.ce.dudaraujo.core.DriverFactory.killDriver;
 
-public class AjaxTest {
+public class AjaxTest extends BaseTest {
 
     private DSL dsl;
 
@@ -18,10 +21,6 @@ public class AjaxTest {
     public void initialize() {
         getDriver().get("https://www.primefaces.org/showcase/ui/ajax/basic.xhtml?jfwid=84ecf");
         dsl = new DSL();
-    }
-    @After
-    public void quit() {
-        killDriver();
     }
 
     @Test

@@ -1,4 +1,7 @@
+package br.ce.dudaraujo.test;
 
+import br.ce.dudaraujo.core.BaseTest;
+import br.ce.dudaraujo.page.TrainingCampPage;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -7,7 +10,7 @@ import org.junit.Test;
 import static br.ce.dudaraujo.core.DriverFactory.getDriver;
 import static br.ce.dudaraujo.core.DriverFactory.killDriver;
 
-public class FullRegisterTrainingCamp {
+public class FullRegisterTrainingCamp extends BaseTest {
 
     private TrainingCampPage page;
     @Before
@@ -15,10 +18,6 @@ public class FullRegisterTrainingCamp {
 
         getDriver().get("file:\\" + System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
         page = new TrainingCampPage();
-    }
-    @After
-    public void quit() {
-       killDriver();
     }
 
     @Test

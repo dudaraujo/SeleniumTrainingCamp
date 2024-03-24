@@ -1,3 +1,6 @@
+package br.ce.dudaraujo.test;
+
+import br.ce.dudaraujo.core.BaseTest;
 import br.ce.dudaraujo.core.DSL;
 import org.junit.After;
 import org.junit.Before;
@@ -7,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static br.ce.dudaraujo.core.DriverFactory.getDriver;
 
-public class PrimeFaces {
+public class PrimeFaces extends BaseTest {
 
     private DSL dsl;
 
@@ -17,10 +20,6 @@ public class PrimeFaces {
        getDriver().get("https://www.primefaces.org/showcase/ui/input/oneMenu.xhtml?jfwid=2f037");
         dsl = new DSL();
 
-    }
-    @After
-    public void quit() {
-       getDriver().quit();
     }
 
     @Test
