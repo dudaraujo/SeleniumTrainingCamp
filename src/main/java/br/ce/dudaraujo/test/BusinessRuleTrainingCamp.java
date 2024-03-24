@@ -3,15 +3,12 @@ package br.ce.dudaraujo.test;
 import br.ce.dudaraujo.core.BaseTest;
 import br.ce.dudaraujo.core.DSL;
 import br.ce.dudaraujo.page.TrainingCampPage;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static br.ce.dudaraujo.core.DriverFactory.getDriver;
-import static br.ce.dudaraujo.core.DriverFactory.killDriver;
+
 
 public class BusinessRuleTrainingCamp extends BaseTest {
 

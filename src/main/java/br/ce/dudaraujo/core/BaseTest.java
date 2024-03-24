@@ -8,6 +8,8 @@ public class BaseTest {
 
     @After
     public void quit() {
-        killDriver();
+        if(Properties.CLOSE_BROWSER) {
+            killDriver();
+        }
     }
 }

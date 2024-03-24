@@ -14,7 +14,7 @@ public class DriverFactory {
         if(driver == null) {
             System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
             driver = new FirefoxDriver();
-            driver.manage().window().setSize(new Dimension(1200, 75));
+            //driver.manage().window().setSize(new Dimension(1200, 75));
         }
         return driver;
     }
